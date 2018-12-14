@@ -23,6 +23,11 @@ function createStore() {
       listeners = listeners.filter((l)=> l !== listener)
     }
   }
+
+  const dispatch = (action) => {
+    state = todos(state, action);
+    listeners.forEach((listerer) => listener());
+  }
   return {
     getState,
     subscribe
