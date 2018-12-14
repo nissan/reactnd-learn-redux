@@ -22,17 +22,17 @@ function createStore() {
   };
 }
 
-const store = createStore();
-store.subscribe(()=> {
-  console.log('The new state is', store.getState())
-})
+// const store = createStore();
+// store.subscribe(()=> {
+//   console.log('The new state is', store.getState())
+// })
 
-store.subscribe(() => {
-  console.log('The store changed')
-})
+// store.subscribe(() => {
+//   console.log('The store changed')
+// })
 
-const unsubscribe = store.subscribe(()=> {
-  console.log('The store changed.')
-})
+// const unsubscribe = store.subscribe(()=> {
+//   console.log('The store changed.')
+// })
 
-unsubscribe(); //allows the 2nd function to be unsubscribed
+// unsubscribe(); //allows the 2nd function to be unsubscribed
