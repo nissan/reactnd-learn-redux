@@ -1,3 +1,10 @@
+function todos (state = [], action) {
+  if (action.type==='ADD_TODO') {
+    return state.concat([action.todo]);
+  }
+
+  return state;
+}
 function createStore() {
   // The state should have four parts
   // 1. The state
@@ -21,18 +28,3 @@ function createStore() {
     subscribe
   };
 }
-
-// const store = createStore();
-// store.subscribe(()=> {
-//   console.log('The new state is', store.getState())
-// })
-
-// store.subscribe(() => {
-//   console.log('The store changed')
-// })
-
-// const unsubscribe = store.subscribe(()=> {
-//   console.log('The store changed.')
-// })
-
-// unsubscribe(); //allows the 2nd function to be unsubscribed
