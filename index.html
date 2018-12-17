@@ -178,11 +178,15 @@
           this.props.store.dispatch(removeTodoAction(todo.id));
           return API.deleteTodo(todo.id).catch(() => {
             this.props.store.dispatch(addTodoAction(todo));
-            alert("An error has occured. Try again.");
+            alert("An error has occurred. Try again.");
           });
         };
         toggleItem = id => {
           this.props.store.dispatch(toggleTodoAction(id));
+          return API.saveTodoToggle(id).catch(() => {
+            this.props.store.dispatch(toggleTodoAction(id));
+            alert("An error has occurred. Try again");
+          });
         };
         render() {
           return (
