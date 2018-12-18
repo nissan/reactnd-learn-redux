@@ -64,6 +64,16 @@
           });
         };
       }
+
+      function handleToggleTodo(id) {
+        return dispatch => {
+          dispatch(toggleTodoAction(id));
+          return API.saveTodoToggle(id).catch(() => {
+            dispatch(toggleTodoAction(id));
+            alert("An error has occurred. Try again");
+          });
+        };
+      }
       function todos(state = [], action) {
         switch (action.type) {
           case ADD_TODO:
@@ -105,7 +115,7 @@
         };
       }
       function handleAddGoal(name, cb) {
-        return( dispatch) => {
+        return dispatch => {
           return API.saveGoal(name)
             .then(goal => {
               dispatch(addGoalAction(goal));
@@ -215,11 +225,7 @@
           this.props.store.dispatch(handleDeleteTodo(todo));
         };
         toggleItem = id => {
-          this.props.store.dispatch(toggleTodoAction(id));
-          return API.saveTodoToggle(id).catch(() => {
-            this.props.store.dispatch(toggleTodoAction(id));
-            alert("An error has occurred. Try again");
-          });
+          this.props.store.dispatch(handleToggleTodo(id));
         };
         render() {
           return (
