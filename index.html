@@ -82,6 +82,24 @@
           goals
         };
       }
+      function handleDeleteTodo(todo) {
+        return dispatch => {
+          dispatch(removeTodoAction(todo.id));
+          return API.deleteTodo(todo.id).catch(() => {
+            dispatch(addTodoAction(todo));
+            alert("An error has occurred. Try again.");
+          });
+        };
+      }
+      function handleDeleteGoal(goal) {
+        return dispatch => {
+          dispatch(removeGoalAction(goal.id));
+          return API.deleteGoal(goal.id).catch(() => {
+            dispatch(addGoalAction(goal));
+            alert("An error has occured. Try again.");
+          });
+        };
+      }
 
       function goals(state = [], action) {
         switch (action.type) {
@@ -131,13 +149,20 @@
         return result;
       };
 
+      const thunk = store => next => action => {
+        if (typeof action === "function") {
+          return action(store.dispatch);
+        }
+        return next(action);
+      };
+
       const store = Redux.createStore(
         Redux.combineReducers({
           todos,
           goals,
           loading
         }),
-        Redux.applyMiddleware(checker, logger)
+        Redux.applyMiddleware(thunk, checker, logger)
       );
     </script>
 
@@ -175,11 +200,7 @@
             });
         };
         removeItem = todo => {
-          this.props.store.dispatch(removeTodoAction(todo.id));
-          return API.deleteTodo(todo.id).catch(() => {
-            this.props.store.dispatch(addTodoAction(todo));
-            alert("An error has occurred. Try again.");
-          });
+          this.props.store.dispatch(handleDeleteTodo(todo));
         };
         toggleItem = id => {
           this.props.store.dispatch(toggleTodoAction(id));
@@ -220,11 +241,7 @@
             });
         };
         removeItem = goal => {
-          this.props.store.dispatch(removeGoalAction(goal.id));
-          return API.deleteGoal(goal.id).catch(() => {
-            this.props.store.dispatch(addGoalAction(goal));
-            alert("An error has occured. Try again.");
-          });
+          this.props.store.dispatch(handleDeleteGoal(goal));
         };
 
         render() {
