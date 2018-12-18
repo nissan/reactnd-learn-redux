@@ -21,7 +21,6 @@ class Todos extends React.Component {
     this.props.dispatch(handleToggleTodo(id));
   };
   render() {
-    console.log("rendering todos");
     return (
       <div>
         <h1>Todo List</h1>

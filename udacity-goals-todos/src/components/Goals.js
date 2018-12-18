@@ -14,7 +14,6 @@ class Goals extends React.Component {
   };
 
   render() {
-    console.log("rendering goals");
     return (
       <div>
         <h1>Goals</h1>
