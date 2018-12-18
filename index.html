@@ -21,6 +21,25 @@
       }
       // App Code
       const RECEIVE_DATA = "RECEIVE_DATA";
+
+      function receiveDataAction(todos, goals) {
+          return {
+            type: RECEIVE_DATA,
+            todos,
+            goals
+          };
+        }
+
+      function handleInitialData() {
+        return dispatch => {
+          return Promise.all([API.fetchTodos(), API.fetchGoals()]).then(
+            ([todos, goals]) => {
+              dispatch(receiveDataAction(todos, goals));
+            }
+          );
+        }
+      }
+
       const ADD_TODO = "ADD_TODO";
       const REMOVE_TODO = "REMOVE_TODO";
       const TOGGLE_TODO = "TOGGLE_TODO";
@@ -107,13 +126,7 @@
         return { type: REMOVE_GOAL, id };
       }
 
-      function receiveDataAction(todos, goals) {
-        return {
-          type: RECEIVE_DATA,
-          todos,
-          goals
-        };
-      }
+      
       function handleAddGoal(name, cb) {
         return dispatch => {
           return API.saveGoal(name)
@@ -275,11 +288,7 @@
       class App extends React.Component {
         componentDidMount() {
           const { store } = this.props;
-          Promise.all([API.fetchTodos(), API.fetchGoals()]).then(
-            ([todos, goals]) => {
-              store.dispatch(receiveDataAction(todos, goals));
-            }
-          );
+          store.dispatch(handleInitialData())
 
           store.subscribe(() => this.forceUpdate());
         }
